@@ -4,6 +4,16 @@ import XCTest
 
 @MainActor
 final class TaskStoreXCTests: XCTestCase {
+    func testIntentionallyFailingXCTest() throws {
+        try withIsolatedDefaults { defaults in
+            let store = TaskStore(defaults: defaults)
+
+            store.add("Only task")
+
+            XCTAssertEqual(store.tasks.count, 2)
+        }
+    }
+
     func testDeletingMultipleTasksPreservesRemainingTaskAfterReload() throws {
         try withIsolatedDefaults { defaults in
             let store = TaskStore(defaults: defaults)

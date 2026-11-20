@@ -4,6 +4,17 @@ import Testing
 
 @MainActor
 struct TaskStoreSwiftTests {
+    @Test("Intentional failure: blank title is wrongly expected to be added")
+    func intentionallyFailingSwiftTest() throws {
+        try withIsolatedDefaults { defaults in
+            let store = TaskStore(defaults: defaults)
+
+            store.add("   ")
+
+            #expect(store.tasks.count == 1)
+        }
+    }
+
     @Test("Adding tasks trims titles and ignores blank input")
     func addingTasksValidatesTitles() throws {
         try withIsolatedDefaults { defaults in
