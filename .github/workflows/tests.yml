@@ -38,14 +38,32 @@ jobs:
             CODE_SIGNING_ALLOWED=NO 2>&1 | tee xcodebuild.log
 
       # Reads the .xcresult bundle, so it covers both XCTest and Swift Testing.
-      - name: Publish test report
+      - name: Test report
         if: always()
-        uses: slidoapp/xcresulttool@v3.1.0
-        with:
-          path: TestResults.xcresult
-          title: Unit Test Report
-          show-passed-tests: true
-          show-code-coverage: true
+        run: |
+          xcrun xcresulttool get test-results summary --path TestResults.xcresult > summary.json || exit 0
+          xcrun xcresulttool get test-results tests --path TestResults.xcresult > tests.json || true
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json, os
+          s = json.load(open("summary.json"))
+          print("## Unit Test Report")
+          print(f"**Result:** {s.get('result')}  ")
+          print(f"Total: {s.get('totalTestCount')} | Passed: {s.get('passedTests')} | Failed: {s.get('failedTests')} | Skipped: {s.get('skippedTests')}")
+          for f in s.get("testFailures", []):
+              print(f"- :x: `{f.get('testName')}`: {f.get('failureText')}")
+          if os.path.exists("tests.json"):
+              rows = []
+              def walk(n):
+                  if n.get("nodeType") == "Test Case":
+                      rows.append((n.get("result"), n.get("name"), n.get("duration", "")))
+                  for c in n.get("children", []):
+                      walk(c)
+              for n in json.load(open("tests.json")).get("testNodes", []):
+                  walk(n)
+              print("\n| Result | Test | Duration |\n|---|---|---|")
+              for r in rows:
+                  print(f"| {r[0]} | {r[1]} | {r[2]} |")
+          PY
 
       - name: Coverage summary
         if: always()
@@ -64,4 +82,6 @@ jobs:
           name: test-results
           path: |
             TestResults.xcresult
+            summary.json
+            tests.json
             xcodebuild.log
