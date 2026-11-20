@@ -6,8 +6,27 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+        A10000000000000000000009 = {
+            isa = PBXContainerItemProxy;
+            containerPortal = C5749B3A30988E25003270C2;
+            proxyType = 1;
+            remoteGlobalIDString = C5749B4130988E25003270C2;
+            remoteInfo = SwiftStarter;
+        };
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXTargetDependency section */
+        A10000000000000000000008 = {
+            isa = PBXTargetDependency;
+            target = C5749B4130988E25003270C2;
+            targetProxy = A10000000000000000000009;
+        };
+/* End PBXTargetDependency section */
+
 /* Begin PBXFileReference section */
 		C5749B4230988E25003270C2 /* SwiftStarter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftStarter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A10000000000000000000001 /* SwiftStarterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = SwiftStarterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -16,6 +35,7 @@
 			path = SwiftStarter;
 			sourceTree = "<group>";
 		};
+		A10000000000000000000002 /* SwiftStarterTests */ = {isa = PBXFileSystemSynchronizedRootGroup; path = SwiftStarterTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +46,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A10000000000000000000004 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -33,6 +54,7 @@
 			isa = PBXGroup;
 			children = (
 				C5749B4430988E25003270C2 /* SwiftStarter */,
+				A10000000000000000000002 /* SwiftStarterTests */,
 				C5749B4330988E25003270C2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +63,7 @@
 			isa = PBXGroup;
 			children = (
 				C5749B4230988E25003270C2 /* SwiftStarter.app */,
+				A10000000000000000000001 /* SwiftStarterTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,6 +93,20 @@
 			productReference = C5749B4230988E25003270C2 /* SwiftStarter.app */;
 			productType = "com.apple.product-type.application";
 		};
+
+        A10000000000000000000006 /* SwiftStarterTests */ = {
+            isa = PBXNativeTarget;
+            buildConfigurationList = A10000000000000000000007;
+            buildPhases = (A10000000000000000000003, A10000000000000000000004, A10000000000000000000005);
+            buildRules = ();
+            dependencies = (A10000000000000000000008);
+            fileSystemSynchronizedGroups = (A10000000000000000000002);
+            name = SwiftStarterTests;
+            packageProductDependencies = ();
+            productName = SwiftStarterTests;
+            productReference = A10000000000000000000001;
+            productType = "com.apple.product-type.bundle.unit-test";
+        };
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -80,6 +117,10 @@
 				LastSwiftUpdateCheck = 2650;
 				LastUpgradeCheck = 2650;
 				TargetAttributes = {
+                    A10000000000000000000006 = {
+                        CreatedOnToolsVersion = 26.5;
+                        TestTargetID = C5749B4130988E25003270C2;
+                    };
 					C5749B4130988E25003270C2 = {
 						CreatedOnToolsVersion = 26.5;
 					};
@@ -99,6 +140,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				A10000000000000000000006 /* SwiftStarterTests */,
 				C5749B4130988E25003270C2 /* SwiftStarter */,
 			);
 		};
@@ -112,6 +154,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A10000000000000000000005 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -122,6 +165,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A10000000000000000000003 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
@@ -304,6 +348,40 @@
 			};
 			name = Release;
 		};
+
+        A1000000000000000000000A /* Debug */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                BUNDLE_LOADER = "$(TEST_HOST)";
+                CODE_SIGN_STYLE = Automatic;
+                GENERATE_INFOPLIST_FILE = YES;
+                IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+                LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks", "@loader_path/Frameworks");
+                PRODUCT_BUNDLE_IDENTIFIER = com.example.SwiftStarterTests;
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                SWIFT_VERSION = 5.0;
+                TARGETED_DEVICE_FAMILY = "1,2";
+                TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwiftStarter.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SwiftStarter";
+            };
+            name = Debug;
+        };
+
+        A1000000000000000000000B /* Release */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                BUNDLE_LOADER = "$(TEST_HOST)";
+                CODE_SIGN_STYLE = Automatic;
+                GENERATE_INFOPLIST_FILE = YES;
+                IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+                LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks", "@loader_path/Frameworks");
+                PRODUCT_BUNDLE_IDENTIFIER = com.example.SwiftStarterTests;
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                SWIFT_VERSION = 5.0;
+                TARGETED_DEVICE_FAMILY = "1,2";
+                TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwiftStarter.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SwiftStarter";
+            };
+            name = Release;
+        };
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -325,6 +403,13 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+
+        A10000000000000000000007 = {
+            isa = XCConfigurationList;
+            buildConfigurations = (A1000000000000000000000A, A1000000000000000000000B);
+            defaultConfigurationIsVisible = 0;
+            defaultConfigurationName = Release;
+        };
 /* End XCConfigurationList section */
 	};
 	rootObject = C5749B3A30988E25003270C2 /* Project object */;

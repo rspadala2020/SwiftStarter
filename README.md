@@ -32,5 +32,22 @@ xcodebuild -project SwiftStarter.xcodeproj -scheme SwiftStarter \
 - `ContentView.swift`: list, task composer, and accessible task rows.
 
 This is a learning sample: storage stays on the device and does not sync to a server.
-There is no automated test target. To check behavior, add a task, mark it complete,
-relaunch the app to confirm it persists, then delete it and relaunch again.
+
+## Tests
+
+The shared SwiftStarter scheme includes a SwiftStarterTests target with four tests:
+
+- `TaskStoreSwiftTests.swift` uses Swift Testing (`@Test`, `#expect`, `#require`)
+  to check title validation and completion persistence.
+- `TaskStoreXCTests.swift` uses XCTest (`XCTestCase`, `XCTAssert`, `XCTUnwrap`)
+  to check multi-task deletion and recovery from corrupt saved data.
+
+Each test uses its own temporary UserDefaults suite and cleans it up afterward.
+In Xcode, select an iOS simulator and press Cmd+U. From the command line, replace
+`SIMULATOR_ID` with a compatible device UUID from `xcrun simctl list devices available`:
+
+```sh
+xcodebuild -project SwiftStarter.xcodeproj -scheme SwiftStarter \
+  -destination 'platform=iOS Simulator,id=SIMULATOR_ID' \
+  -derivedDataPath /tmp/SwiftStarterTestDerivedData test
+```
