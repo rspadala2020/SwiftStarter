@@ -1,0 +1,67 @@
+name: Unit Tests
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+jobs:
+  test:
+    runs-on: macos-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select first available iPhone simulator
+        id: sim
+        run: |
+          UDID=$(xcrun simctl list devices available iPhone -j | python3 -c "import sys,json; d=json.load(sys.stdin)['devices']; print(next(x['udid'] for r in sorted(d, reverse=True) if 'iOS' in r for x in d[r]))")
+          echo "udid=$UDID" >> "$GITHUB_OUTPUT"
+
+      - name: Run unit tests
+        run: |
+          set -o pipefail
+          xcodebuild test \
+            -project SwiftStarter.xcodeproj \
+            -scheme SwiftStarter \
+            -destination "id=${{ steps.sim.outputs.udid }}" \
+            -resultBundlePath TestResults.xcresult \
+            -enableCodeCoverage YES \
+            CODE_SIGNING_ALLOWED=NO 2>&1 | tee xcodebuild.log
+
+      # Reads the .xcresult bundle, so it covers both XCTest and Swift Testing.
+      - name: Publish test report
+        if: always()
+        uses: slidoapp/xcresulttool@v3.1.0
+        with:
+          path: TestResults.xcresult
+          title: Unit Test Report
+          show-passed-tests: true
+          show-code-coverage: true
+
+      - name: Coverage summary
+        if: always()
+        run: |
+          {
+            echo "## Code coverage"
+            echo '```'
+            xcrun xccov view --report --only-targets TestResults.xcresult || echo "no coverage data"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: |
+            TestResults.xcresult
+            xcodebuild.log
